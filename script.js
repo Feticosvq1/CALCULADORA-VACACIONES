@@ -45,9 +45,9 @@ function calculate(){
  $('totalEarned').textContent=fmt(accrued)+' días';$('totalRounded').textContent=rounded+' días';$('totalTaken').textContent=taken+' días';$('totalRest').textContent=valid?remaining+' días':'Revisa las fechas';
  $('summary').innerHTML=[['Periodos incluidos',String(data.length)],['Vacaciones generadas (suma de periodos)',fmt(accrued)+' días'],['Vacaciones redondeadas del total',rounded+' días'],['Días disfrutados (suma de periodos)',taken+' días'],['RESTO PENDIENTE TOTAL',valid?remaining+' días':'No disponible hasta corregir las fechas']].map(([a,b])=>`<div class="row"><span>${a}</span><b>${b}</b></div>`).join('');
 }
-function addPeriod(){
+function appendPeriod(){
  $('periods').insertAdjacentHTML('beforeend',makePeriod());
- const card=cards().at(-1);setDateLimits(card);bindCard(card);renumber();calculate();
+ const allCards=cards();const card=allCards[allCards.length-1];setDateLimits(card);bindCard(card);renumber();calculate();
 }
 function bindCard(card){
  const start=card.querySelector('[data-field="start"]');
@@ -55,5 +55,5 @@ function bindCard(card){
  card.querySelectorAll('input,select').forEach(el=>{el.addEventListener('input',calculate);el.addEventListener('change',calculate);});
  card.querySelector('[data-remove]').addEventListener('click',()=>{if(cards().length<=1)return;card.remove();renumber();calculate();});
 }
-$('addPeriod').addEventListener('click',addPeriod);
-addPeriod();
+document.getElementById('addPeriodBtn').addEventListener('click',appendPeriod);
+appendPeriod();
